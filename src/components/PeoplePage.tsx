@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Loader } from '../components/Loader';
 import { Person } from '../types';
 import { PeopleTable } from './PeopleTable';
+import { getPeople } from '../api';
 
 export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -9,14 +10,7 @@ export const PeoplePage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://mate-academy.github.io/react_people-table/api/people.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        return response.json();
-      })
+    getPeople()
       .then(data => setPeople(data))
       .catch(() => setHasError(true))
       .finally(() => setIsLoading(false));
